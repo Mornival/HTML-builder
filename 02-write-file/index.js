@@ -1,15 +1,16 @@
 const fs = require("fs");
-let writeStream = new fs.createWriteStream("02-write-file/text.txt");
+const path = require("path");
+let writeStream = new fs.createWriteStream(path.join(__dirname, "text.txt"));
 const { stdin, stdout } = process;
 process.on("exit", () => {
-    stdout.write("Goodbye, sir!\n");
+    stdout.write("\nGoodbye, sir!\n");
 });
 process.on('SIGINT', () => {
     process.exit();
 });
 stdout.write("Hello, sir!\n");
 stdin.on("data", data => {
-    if (data.toString().trim() == 'exit') {
+    if (data.toString().trim() == "exit") {
         process.exit();
     }
     writeStream.write(data);
