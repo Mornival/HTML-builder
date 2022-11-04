@@ -2,14 +2,12 @@ const fs = require("fs");
 const path = require("path");
 let resultInnerHTML = "";
 let filesNames = [];
-let trueFiles = [];
 let fullData = "";
 let firstDataOfIndex = [];
 let secondDataOfIndex = [];
 let nameOfElements = [];
 let positionOfElement = [];
-let launchDelete = true;
-let f = 0;
+let readyForCreate = true;
 let readStream = new fs.createReadStream(path.join(__dirname, "template.html"),"utf-8");
 readStream.on("data", function(info){
     for(let i = 0; i < info.length; i++){
@@ -81,7 +79,10 @@ async function createFolder(){
         fs.readdir(path.join(__dirname,"styles"),  function (error,data){
             if(error) throw error;
             filesNames = data;
-            isTrueFiles();
+            if(readyForCreate){
+                isTrueFiles();
+                readyForCreate = false;
+            }
         });
     });
 }
@@ -89,12 +90,12 @@ async function isTrueFiles() {
     for (let i = 0; i < filesNames.length; i++) {
         fs.stat(path.join(__dirname, "styles", filesNames[i]), function (error, stats) {
             if (stats.isFile() && path.extname(filesNames[i]).substr(1) == "css") {
-                trueFiles.push(filesNames[i]);
                 let readStream = new fs.createReadStream(path.join(__dirname, "styles",filesNames[i]),"utf-8");
                 readStream.on("data", function(info){
                     fullData += info;
-                    fs.stat(path.join(__dirname, "styles", filesNames[i]), function (error, stats){
-                        let writeStream = new fs.createWriteStream(path.join(__dirname,"project-dist","style.css"));
+                    console.log(fullData.length)
+                    fs.stat(path.join(__dirname, "styles", filesNames[i]), function (error, stats) {
+                        let writeStream = new fs.createWriteStream(path.join(__dirname, "project-dist", "style.css"));
                         writeStream.write(fullData);
                     });
                     let writeStream = new fs.createWriteStream(path.join(__dirname,"project-dist","index.html"));
@@ -133,4 +134,5 @@ function packHTML(){
             resultInnerHTML += secondDataOfIndex[i];
         }
     }
+    console.log("we build it" + resultInnerHTML.length);
 }
