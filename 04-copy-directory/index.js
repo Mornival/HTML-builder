@@ -6,10 +6,10 @@ async function copyDir(){
 }
 function createFolder(){
     fs.mkdir(path.join(__dirname, "files-copy"),{recursive: true} ,(error) => {
-        copyFolders(path.join(__dirname, "files"),path.join(__dirname, "files-copy"));
+        copyFolder(path.join(__dirname, "files"),path.join(__dirname, "files-copy"));
     });
 }
-function copyFolders(pathFolder,pathCopyFolder){
+function copyFolder(pathFolder,pathCopyFolder){
     fs.readdir(pathFolder, function(error,data){
         if(data){
             for(let i = 0; i < data.length; i++){

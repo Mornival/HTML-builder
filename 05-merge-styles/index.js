@@ -4,7 +4,7 @@ let filesNames = [];
 let trueFiles = [];
 let fullData = "";
 fs.readdir(path.join(__dirname,"styles"),  function (error,data){
-    if(error) throw error;    
+    if(error) throw error;
     filesNames = data;
     start();
 });
@@ -19,9 +19,12 @@ async function isTrueFiles() {
                 trueFiles.push(filesNames[i]);
                 let readStream = new fs.createReadStream(path.join(__dirname, "styles",filesNames[i]),"utf-8");
                 readStream.on("data", function(info){
+                    console.log("WriteINFO");
                     fullData += info;
-                    let writeStream = new fs.createWriteStream(path.join(__dirname,"project-dist","bundle.css"));
-                    writeStream.write(fullData);
+                    fs.stat(path.join(__dirname, "styles", filesNames[i]), function (error, stats){
+                        let writeStream = new fs.createWriteStream(path.join(__dirname,"project-dist","bundle.css"));
+                        writeStream.write(fullData);
+                    });
                 });
             }
         });
