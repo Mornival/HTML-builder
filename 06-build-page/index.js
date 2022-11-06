@@ -93,13 +93,10 @@ async function isTrueFiles() {
                 let readStream = new fs.createReadStream(path.join(__dirname, "styles",filesNames[i]),"utf-8");
                 readStream.on("data", function(info){
                     fullData += info;
-                    console.log(fullData.length)
                     fs.stat(path.join(__dirname, "styles", filesNames[i]), function (error, stats) {
                         let writeStream = new fs.createWriteStream(path.join(__dirname, "project-dist", "style.css"));
                         writeStream.write(fullData);
                     });
-                    let writeStream = new fs.createWriteStream(path.join(__dirname,"project-dist","index.html"));
-                    writeStream.write(resultInnerHTML);
                 });
             }
         });
@@ -121,6 +118,8 @@ async function copyFolder(pathFolder,pathCopyFolder){
                             fs.copyFile(path.join(pathFolder,data[i]),path.join(pathCopyFolder,data[i]), (error) =>{});
                         }
                     }
+                    let writeStream1 = new fs.createWriteStream(path.join(__dirname,"project-dist","index.html"));
+                    writeStream1.write(resultInnerHTML);
                 });
             }
         }
@@ -134,5 +133,4 @@ function packHTML(){
             resultInnerHTML += secondDataOfIndex[i];
         }
     }
-    console.log("we build it" + resultInnerHTML.length);
 }

@@ -18,7 +18,7 @@ function copyFolder(pathFolder,pathCopyFolder){
                 fs.stat(curPath, function(error,stats){
                     if(!error){
                         if(!stats.isFile()){
-                            copyFolders(curPath,curCopyPath);
+                            copyFolder(curPath,curCopyPath);
                             fs.mkdir(path.join(pathCopyFolder,data[i]),{recursive: true} ,(error) => {
                             });
                         } else{

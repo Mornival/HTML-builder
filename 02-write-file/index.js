@@ -8,7 +8,7 @@ process.on("exit", () => {
 process.on('SIGINT', () => {
     process.exit();
 });
-stdout.write("Hello, sir!\n");
+stdout.write("Hello, sir! Enter the data in thefile\n");
 stdin.on("data", data => {
     if (data.toString().trim() == "exit") {
         process.exit();
